@@ -11,7 +11,7 @@ namespace WebAPI_Demo.Controllers
     {
         static List<string> strings = new List<string>()
         {
-            "value0","value1", "value2"
+            "value0","value1", "value2","value3"
         };
         // GET api/values
         public IEnumerable<string> Get()
