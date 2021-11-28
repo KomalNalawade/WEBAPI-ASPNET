@@ -10,18 +10,18 @@ namespace WebAPI_Demo
     public static class WebApiConfig
     {
         //Approach 2
-        public class CustomJsonFormatter : JsonMediaTypeFormatter
-        {
-            public CustomJsonFormatter()
-            {
-                this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-            }
-            public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
-            {
-                base.SetDefaultContentHeaders(type, headers, mediaType);
-                headers.ContentType = new MediaTypeHeaderValue("application/json");
-            }
-        }
+        //public class CustomJsonFormatter : JsonMediaTypeFormatter
+        //{
+        //    public CustomJsonFormatter()
+        //    {
+        //        this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+        //    }
+        //    public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+        //    {
+        //        base.SetDefaultContentHeaders(type, headers, mediaType);
+        //        headers.ContentType = new MediaTypeHeaderValue("application/json");
+        //    }
+        //}
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
@@ -35,7 +35,7 @@ namespace WebAPI_Demo
                 defaults: new { id = RouteParameter.Optional }
             );
             //Approach 2
-            config.Formatters.Add(new CustomJsonFormatter());
+            //config.Formatters.Add(new CustomJsonFormatter());
             //Approach 1
             //By default our web api return XML
             // How to return JSON Instead of XML

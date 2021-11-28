@@ -26,29 +26,45 @@ namespace WebAPI_Demo.Controllers
                 return entities.tblEmployees.FirstOrDefault(emp => emp.Id == id);
              //}
         }
-        public bool post([FromBody] tblEmployee emp)
+        //public bool Post([FromBody] tblEmployee emp)
+        //{
+        //    bool status = false;
+        //    try
+        //    {
+        //        tblEmployee e = new tblEmployee();
+        //        e.Name = emp.Name;
+        //        e.City = emp.City;
+        //        e.Gender = emp.Gender;
+        //        e.DateOfBirth = emp.DateOfBirth;
+        //        entities.tblEmployees.Add(e);
+        //        entities.SaveChanges();
+        //        status = true;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Console.WriteLine("Message :" + ex.Message);
+        //        status = false;
+        //    }
+        //    return status;
+
+        //}
+        public HttpResponseMessage Post([FromBody] tblEmployee emp)
         {
-            bool status = false;
             try
             {
-                tblEmployee e = new tblEmployee();
-                e.Name = emp.Name;
-                e.City = emp.City;
-                e.Gender = emp.Gender;
-                e.DateOfBirth = emp.DateOfBirth;
-                entities.tblEmployees.Add(e);
+                entities.tblEmployees.Add(emp);
                 entities.SaveChanges();
-                status = true;
+                var message = Request.CreateResponse(HttpStatusCode.Created, emp);
+                message.Headers.Location = new Uri(Request.RequestUri + emp.Id.ToString());
+                return message;
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Message :" + ex.Message);
-                status = false;
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-            return status;
-
+            
         }
-        public bool put(int id,[FromBody] tblEmployee employee)
+        public bool Put(int id,[FromBody] tblEmployee employee)
         {
             bool status = false;
             tblEmployee existingEmp = entities.tblEmployees.Where(e => e.Id == id).FirstOrDefault();
@@ -71,7 +87,7 @@ namespace WebAPI_Demo.Controllers
             }
             return status;
         }
-        public bool delete(int id)
+        public bool Delete(int id)
         {
             bool status = false;
             tblEmployee emp = entities.tblEmployees.Where(e => e.Id == id).FirstOrDefault();
