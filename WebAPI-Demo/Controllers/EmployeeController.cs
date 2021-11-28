@@ -19,12 +19,17 @@ namespace WebAPI_Demo.Controllers
            // }
             
         }
-        public tblEmployee Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            //using (EmployeeEntities entities = new EmployeeEntities())
-            //{
-                return entities.tblEmployees.FirstOrDefault(emp => emp.Id == id);
-             //}
+                var entity =  entities.tblEmployees.FirstOrDefault(emp => emp.Id == id);
+                if(entity != null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, entity);
+                }
+                else
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with id = " + id.ToString() + " not Found");
+                }
         }
         //public bool Post([FromBody] tblEmployee emp)
         //{
