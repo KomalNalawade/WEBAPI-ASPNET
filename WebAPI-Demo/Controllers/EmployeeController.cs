@@ -69,29 +69,29 @@ namespace WebAPI_Demo.Controllers
             }
             
         }
-        public bool Put(int id,[FromBody] tblEmployee employee)
-        {
-            bool status = false;
-            tblEmployee existingEmp = entities.tblEmployees.Where(e => e.Id == id).FirstOrDefault();
-            try
-            {
-                if (existingEmp != null)
-                {
-                    existingEmp.Name = employee.Name;
-                    existingEmp.Gender = employee.Gender;
-                    existingEmp.City = employee.City;
-                    existingEmp.DateOfBirth = employee.DateOfBirth;
-                    entities.SaveChanges();
-                    status = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Message :" + ex.Message);
-                status = false;
-            }
-            return status;
-        }
+        //public bool Put(int id,[FromBody] tblEmployee employee)
+        //{
+        //    bool status = false;
+        //    tblEmployee existingEmp = entities.tblEmployees.Where(e => e.Id == id).FirstOrDefault();
+        //    try
+        //    {
+        //        if (existingEmp != null)
+        //        {
+        //            existingEmp.Name = employee.Name;
+        //            existingEmp.Gender = employee.Gender;
+        //            existingEmp.City = employee.City;
+        //            existingEmp.DateOfBirth = employee.DateOfBirth;
+        //            entities.SaveChanges();
+        //            status = true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Message :" + ex.Message);
+        //        status = false;
+        //    }
+        //    return status;
+        //}
         //public bool Delete(int id)
         //{
         //    bool status = false;
@@ -131,6 +131,31 @@ namespace WebAPI_Demo.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
+        }
+        public HttpResponseMessage Put(int id, [FromBody] tblEmployee emp)
+        {
+            try 
+            { 
+                var entity = entities.tblEmployees.FirstOrDefault(e => e.Id == id);
+                if (entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with id= " + id + " not found for update");
+                }
+                else
+                {
+                    entity.Name = emp.Name;
+                    entity.City = emp.City;
+                    entity.Gender = emp.Gender;
+                    entity.DateOfBirth = emp.DateOfBirth;
+                    entities.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK, entity);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+            }
+
         }
     }
 }
