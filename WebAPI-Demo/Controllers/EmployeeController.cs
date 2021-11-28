@@ -92,23 +92,45 @@ namespace WebAPI_Demo.Controllers
             }
             return status;
         }
-        public bool Delete(int id)
+        //public bool Delete(int id)
+        //{
+        //    bool status = false;
+        //    tblEmployee emp = entities.tblEmployees.Where(e => e.Id == id).FirstOrDefault();
+        //    try
+        //    {
+        //        entities.tblEmployees.Remove(emp);
+        //        entities.SaveChanges();
+        //        status = true;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Console.WriteLine("Message :" + ex.Message);
+        //        status = false;
+        //    }
+        //    return status;
+            
+        //}
+
+        public HttpResponseMessage Delete(int id)
         {
-            bool status = false;
-            tblEmployee emp = entities.tblEmployees.Where(e => e.Id == id).FirstOrDefault();
             try
             {
-                entities.tblEmployees.Remove(emp);
-                entities.SaveChanges();
-                status = true;
+                var entity = entities.tblEmployees.Remove(entities.tblEmployees.FirstOrDefault(e => e.Id == id));
+                if (entity == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with id " + id.ToString() + " not found to delete");
+                }
+                else
+                {
+                    entities.tblEmployees.Remove(entity);
+                    entities.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Message :" + ex.Message);
-                status = false;
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-            return status;
-            
         }
     }
 }
