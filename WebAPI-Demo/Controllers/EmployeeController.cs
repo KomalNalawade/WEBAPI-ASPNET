@@ -153,7 +153,10 @@ namespace WebAPI_Demo.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
         }
-        public HttpResponseMessage Put(int id, [FromBody] tblEmployee emp)
+
+        //https://localhost:44370/api/employee?id=2&Name=Kai&Gender=Male&City=Finland&DateOfBirth=1820-01-01 = FromUri
+        //https://localhost:44370/api/employee?Name=Kai&Gender=Male&City=Finland&DateOfBirth=1820-01-01 = FromBody & FromUri 
+        public HttpResponseMessage Put([FromBody] int id, [FromUri] tblEmployee emp)
         {
             try 
             { 

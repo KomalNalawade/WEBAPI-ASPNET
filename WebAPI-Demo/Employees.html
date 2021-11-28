@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var employees = $("#listEmployees");
+
+            $("#btn").click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'api/employee',
+                    dataType: 'json',
+                    success: function (data) {
+                        employees.empty();
+                        $.each(data, function (index,val) {
+                            var nameCity = val.Name + ' live in ' + val.City + ' City';
+                            employees.append('<li>' + nameCity + '</li>');
+                        });
+                    }
+              });
+            });
+
+            $('#btnClear').click(function () {
+                employees.empty();
+            });
+
+
+        });
+    </script>
+</head>
+<body>
+    <button id="btn">Get all Employees</button>
+    <button id="btnClear">Clear</button>
+    <ul id="listEmployees"></ul>
+</body>
+</html>
