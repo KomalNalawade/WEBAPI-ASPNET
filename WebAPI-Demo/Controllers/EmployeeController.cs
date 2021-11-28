@@ -11,26 +11,47 @@ namespace WebAPI_Demo.Controllers
     public class EmployeeController : ApiController
     {
         EmployeeEntities entities = new EmployeeEntities();
-        public IEnumerable<tblEmployee> Get()
+        //public IEnumerable<tblEmployee> Get()
+        //{
+        //    //using (EmployeeEntities entities = new EmployeeEntities())
+        //    //{
+        //    return entities.tblEmployees.ToList();
+        //    // }
+        //}
+
+
+        //https://localhost:44370/api/employee?gender=female
+        public HttpResponseMessage Get(string gender = "All")
         {
-            //using (EmployeeEntities entities = new EmployeeEntities())
-            //{
-                return entities.tblEmployees.ToList();
-           // }
-            
+            switch (gender.ToLower())
+            {
+                case "all":
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.ToList());
+                case "male":
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "male").ToList());
+                case "female":
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "female").ToList());
+                default:
+                    return Request.CreateResponse(HttpStatusCode.NotFound,
+                        "Value must be All , Female or Male " + gender + " not valid");
+
+            }
+
         }
-        public HttpResponseMessage Get(int id)
-        {
-                var entity =  entities.tblEmployees.FirstOrDefault(emp => emp.Id == id);
-                if(entity != null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.OK, entity);
-                }
-                else
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with id = " + id.ToString() + " not Found");
-                }
-        }
+
+        //public HttpResponseMessage Get(int id)
+        //{
+        //    var entity = entities.tblEmployees.FirstOrDefault(emp => emp.Id == id);
+        //    if (entity != null)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.OK, entity);
+        //    }
+        //    else
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Employee with id = " + id.ToString() + " not Found");
+        //    }
+
+        //}
         //public bool Post([FromBody] tblEmployee emp)
         //{
         //    bool status = false;
