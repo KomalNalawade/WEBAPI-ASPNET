@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.4.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var employees = $("#listEmployees");
+                $("#btn").prop('disabled', false);
+                $("#btn").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+;                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost/WebAPI-Demo/api/employee',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(username + ':' + password)
+                    },
+                        success: function (data) {
+                        employees.empty();
+                        $.each(data, function (index,val) {
+                            var name = val.Name;
+                            employees.append('<li>' + name + '('+val.Gender+')</li>');
+                        });
+                        },
+                    complete: function (jqXHR) {
+                        if (jqXHR.status == '401') {
+                            employees.empty();
+                            employees.append('<li style="color:red">' + jqXHR.status + ' ' + jqXHR.statusText + '</li>');
+                        }
+
+                    }
+              });
+            });
+
+            $('#btnClear').click(function () {
+                employees.empty();
+            });
+
+
+        });</script>
+
+    <!--<script type="text/javascript">
+        $(document).ready(function () {
+
+            var lstEmployees = $("#listEmployees");
+
+            $("#btn").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
+                $.ajax({
+                    type: 'GET',
+                    url: 'api/employee',
+                    dataType: 'json',
+                    headers: {
+                        'Authorization' : 'Basic ' + btoa(username + ':' + password)
+                    },
+                    success: function (data) {
+                        lstEmployees.empty();
+                        $.each(data, function (index, value) {
+                            var empCity = value.Name;
+                            lstEmployees.append('<li>' + empCity + '('+value.Gender+')</li>');
+                        });
+                    },
+                    complete: function (jqXMR) {
+                        if (jqXMR.status == '401') {
+                            lstEmployees.empty();
+                            lstEmployees.append('<li style="color:red">' + jqXMR.status + ':' + jqXMR.statusText + '</li>');
+                        }
+                    }
+                });
+
+            });
+            $("#btnClear").click(function () {
+                lstEmployees.empty();
+            });
+        });
+    </script>-->
+</head>
+<body>
+    Username : <input type="text" id="username" />
+    Password : <input type="password" id="password" /><br /><br />
+    <button id="btn" disbaled>Authenticate and Get Employees</button>
+    <button id="btnClear">Clear</button>
+    <ul id="listEmployees"></ul>
+</body>
+</html>
