@@ -4,21 +4,33 @@
     <meta charset="utf-8" />
     <title></title>
     <script src="Scripts/jquery-3.4.1.js"></script>
-    <!--<script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function () {
             var employees = $("#listEmployees");
 
             $("#btn").click(function () {
-                $.ajax({
+                var username = $("#username").val();
+                var password = $("#password").val();
+;                $.ajax({
                     type: 'GET',
                     url: 'api/employee',
                     dataType: 'json',
-                    success: function (data) {
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(username + ':' + password)
+                    },
+                        success: function (data) {
                         employees.empty();
                         $.each(data, function (index,val) {
-                            var nameCity = val.Name + ' live in ' + val.City + ' City';
-                            employees.append('<li>' + nameCity + '</li>');
+                            var name = val.Name;
+                            employees.append('<li>' + name + '('+val.Gender+')</li>');
                         });
+                        },
+                    complete: function (jqXHR) {
+                        if (jqXHR.status == '401') {
+                            employees.empty();
+                            employees.append('<li style="color:red">' + jqXHR.status + ' ' + jqXHR.statusText + '</li>');
+                        }
+                       
                     }
               });
             });
@@ -29,23 +41,35 @@
 
 
         });
-    </script>-->
+    </script>
 
-    <script type="text/javascript">
+    <!--<script type="text/javascript">
         $(document).ready(function () {
+            
             var lstEmployees = $("#listEmployees");
 
             $("#btn").click(function () {
+                var username = $("#username").val();
+                var password = $("#password").val();
                 $.ajax({
                     type: 'GET',
                     url: 'api/employee',
                     dataType: 'json',
+                    headers: {
+                        'Authorization' : 'Basic ' + btoa(username + ':' + password)
+                    },
                     success: function (data) {
                         lstEmployees.empty();
                         $.each(data, function (index, value) {
                             var empCity = value.Name;
-                            lstEmployees.append('<li>' + empCity + '</li>');
+                            lstEmployees.append('<li>' + empCity + '('+value.Gender+')</li>');
                         });
+                    },
+                    complete: function (jqXMR) {
+                        if (jqXMR.status == '401') {
+                            lstEmployees.empty();
+                            lstEmployees.append('<li style="color:red">' + jqXMR.status + ':' + jqXMR.statusText + '</li>');
+                        }
                     }
                 });
 
@@ -54,10 +78,12 @@
                 lstEmployees.empty();
             });
         });
-    </script>
+    </script>-->
 </head>
 <body>
-    <button id="btn">Get all Employees</button>
+    Username : <input type="text" id="username" />
+    Password : <input type="password" id="password" /><br /><br />
+    <button id="btn">Authenticate and Get Employees</button>
     <button id="btnClear">Clear</button>
     <ul id="listEmployees"></ul>
 </body>

@@ -26,9 +26,10 @@ namespace WebAPI_Demo
                 //username:password in base64string format
                 //decode
                 string decodedAuthenticationToken = Encoding.UTF8.GetString(Convert.FromBase64String(authenticationToken));
-                string[] usernamePasswordArray=decodedAuthenticationToken.Split(':');
+                string[] usernamePasswordArray= decodedAuthenticationToken.Split(':');
                 string username = usernamePasswordArray[0];
                 string password = usernamePasswordArray[1];
+
 
                 if (EmployeeSecurity.Login(username, password))
                 {
