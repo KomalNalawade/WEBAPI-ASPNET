@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace WebAPI_Demo.Controllers
 {
+    //[EnableCorsAttribute("*", "*", "*")]
+    [BasicAuthentication]
     public class EmployeeController : ApiController
     {
         EmployeeEntities entities = new EmployeeEntities();
@@ -21,19 +25,21 @@ namespace WebAPI_Demo.Controllers
 
 
         //https://localhost:44370/api/employee?gender=female
+        [DisableCors]
         public HttpResponseMessage Get(string gender = "All")
         {
-            switch (gender.ToLower())
+            string username = Thread.CurrentPrincipal.Identity.Name;
+
+            switch (username.ToLower())
             {
-                case "all":
-                    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.ToList());
+                //case "all":
+                //    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.ToList());
                 case "male":
                     return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "male").ToList());
                 case "female":
                     return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "female").ToList());
                 default:
-                    return Request.CreateResponse(HttpStatusCode.NotFound,
-                        "Value must be All , Female or Male " + gender + " not valid");
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
 
             }
 

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using WebApiContrib.Formatting.Jsonp;
 
 namespace WebAPI_Demo
 {
@@ -34,6 +36,17 @@ namespace WebAPI_Demo
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+
+            //enable cors
+            //EnableCorsAttribute cors = new EnableCorsAttribute("*", "*","*");
+            //config.EnableCors(cors);
+            //config.EnableCors();
+            //enable cors
+            //var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
+            //config.Formatters.Insert(0, jsonpFormatter);
+            //var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
+            //config.Formatters.Insert(0, jsonpFormatter);
             //Approach 2
             //config.Formatters.Add(new CustomJsonFormatter());
             //Approach 1
@@ -50,6 +63,7 @@ namespace WebAPI_Demo
             //Content Negotiation
             //config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             //config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+
 
         }
     }

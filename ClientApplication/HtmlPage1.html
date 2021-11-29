@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿
 <html>
 <head>
     <meta charset="utf-8" />
@@ -38,8 +38,8 @@
             $("#btn").click(function () {
                 $.ajax({
                     type: 'GET',
-                    url: 'api/employee',
-                    dataType: 'json',
+                    url: 'https://localhost:44370/api/employee',
+                    dataType: 'jsonp',
                     success: function (data) {
                         lstEmployees.empty();
                         $.each(data, function (index, value) {

@@ -70,6 +70,9 @@
     <Compile Include="tblEmployee.cs">
       <DependentUpon>EmployeeDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>EmployeeDataModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="EmployeeDataModel.edmx">
