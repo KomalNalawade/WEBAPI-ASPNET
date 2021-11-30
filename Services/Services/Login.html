@@ -11,14 +11,14 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="success">
-                        <td colspan="2">New User Registration   <a class="btn btn-success pull-right" href="Login.html">Login</a></td>
+                        <td colspan="2">Existing User  <a class="btn btn-success pull-right" href="Register.html">Register</a></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Email :</td>
+                        <td>Username :</td>
                         <td>
-                            <input type="email" id="txtEmail" placeholder="Email" />
+                            <input type="email" id="txtUsername" placeholder="Username" />
                         </td>
                     </tr>
                     <tr>
@@ -27,22 +27,16 @@
                             <input type="password" id="txtPassword" placeholder="Password" />
                         </td>
                     </tr>
-                    <tr>
-                        <td>Confirm Password :</td>
-                        <td>
-                            <input type="password" id="txtConfirmPassword" placeholder="Confirm Password" />
-                        </td>
-                    </tr>
-                    <tr>
+                    <tr class="success">
                         <td colspan="2">
-                            <input type="button" id="btnRegister" value="Register" class="btn btn-success" />
+                            <input type="button" id="btnLogin" value="Login" class="btn btn-success" />
                         </td>
                     </tr>
                 </tbody>
             </table>
 
 
-            <div class="modal fade" tabindex="-1" id="successModal" data-keyboard="false" data-backdrop="static">
+            <!--<div class="modal fade" tabindex="-1" id="successModal" data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -58,7 +52,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div>-->
             <div id="divError" class="alert alert-danger collapse">
                 <a class="close" id="linkClose" href="#">&times;</a>
                 <div id="divErrorText"></div>
@@ -71,21 +65,27 @@
     <script src="Scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+
+            
             $("#linkClose").click(function () {
                 $("#divError").hide('fade');
             });
 
-            $("#btnRegister").click(function () {
+            $("#btnLogin").click(function () {
                 $.ajax({
-                    url: 'api/Account/Register',
+                    url: '/token',
                     method: 'POST',
+                    contentType:'application/json',
                     data: {
-                        email: $("#txtEmail").val(),
+                        username: $("#txtUsername").val(),
                         password: $("#txtPassword").val(),
-                        confirmPassword: $("#txtConfirmPassword").val()
+                        grant_type:'password'
                     },
-                    success: function () {
-                        $("#successModal").modal('show');
+                    success: function (response) {
+                        //$("#divErrorText").text(JSON.stringify(response));
+                        //$("#divError").show('fade')
+                        sessionStorage.setItem('accessToken', response.access_token);
+                        window.location.href = "Data.html";
                     },
                     error: function (jqXHR) {
                         $("#divErrorText").text(jqXHR.responseText);
