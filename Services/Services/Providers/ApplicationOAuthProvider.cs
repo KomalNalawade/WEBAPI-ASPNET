@@ -93,6 +93,7 @@ namespace Services.Providers
                 { "userName", userName }
             };
             return new AuthenticationProperties(data);
+
         }
     }
 }
