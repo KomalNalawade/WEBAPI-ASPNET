@@ -15,36 +15,35 @@ namespace WebAPI_Demo.Controllers
     public class EmployeeController : ApiController
     {
         EmployeeEntities entities = new EmployeeEntities();
-
-        public IEnumerable<tblEmployee> Get()
-        {
-            //using (EmployeeEntities entities = new EmployeeEntities())
-            //{
-            return entities.tblEmployees.ToList();
-            // }
-        }
+        //public IEnumerable<tblEmployee> Get()
+        //{
+        //    //using (EmployeeEntities entities = new EmployeeEntities())
+        //    //{
+        //    return entities.tblEmployees.ToList();
+        //    // }
+        //}
 
 
         //https://localhost:44370/api/employee?gender=female
         //[DisableCors]
-        //public HttpResponseMessage Get(string gender = "All")
-        //{
-        //    string username = Thread.CurrentPrincipal.Identity.Name;
+        public HttpResponseMessage Get(string gender = "All")
+        {
+            string username = Thread.CurrentPrincipal.Identity.Name;
 
-        //    switch (username.ToLower())
-        //    {
-        //        //case "all":
-        //        //    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.ToList());
-        //        case "male":
-        //            return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "male").ToList());
-        //        case "female":
-        //            return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "female").ToList());
-        //        default:
-        //            return Request.CreateResponse(HttpStatusCode.BadRequest);
+            switch (username.ToLower())
+            {
+                //case "all":
+                //    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.ToList());
+                case "male":
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "male").ToList());
+                case "female":
+                    return Request.CreateResponse(HttpStatusCode.OK, entities.tblEmployees.Where(e => e.Gender.ToLower() == "female").ToList());
+                default:
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
 
-        //    }
+            }
 
-        //}
+        }
 
         //public HttpResponseMessage Get(int id)
         //{

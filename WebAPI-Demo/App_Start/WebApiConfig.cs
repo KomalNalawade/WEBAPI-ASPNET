@@ -40,7 +40,8 @@ namespace WebAPI_Demo
 
             //enable cors
             EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors();
+            config.EnableCors(cors);
+            //config.EnableCors();
             //enable cors
             //var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
             //config.Formatters.Insert(0, jsonpFormatter);

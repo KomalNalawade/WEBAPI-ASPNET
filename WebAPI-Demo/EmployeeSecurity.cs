@@ -11,8 +11,7 @@ namespace WebAPI_Demo
         public static bool Login(string username,string password)
         {
             EmployeeEntities entity = new EmployeeEntities();
-            
-            return entity.Users1.Any(user=>user.Username.Equals(username, StringComparison.OrdinalIgnoreCase)
+            return entity.Users.Any(user=>user.Username.Equals(username, StringComparison.OrdinalIgnoreCase)
                         && user.Password == password);
         }
     }
